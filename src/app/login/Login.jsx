@@ -1,8 +1,15 @@
 "use client";
-import React, { useState } from "react";
+import { login } from "@/services/userService";
+import React, { useContext, useState } from "react";
 import { toast } from "react-toastify";
+import  { useRouter } from "next/navigation";
+import UserContext from "../context/userContext";
+ 
 
 const Login = () => {
+
+    const router = useRouter()
+    const context = useContext(UserContext)
 
    const [loginData,setLoginData] =useState({
         email:"",
@@ -18,7 +25,7 @@ const Login = () => {
     }
 
 
-    const loginFormSubmitted = (event)=>{
+    const loginFormSubmitted = async(event)=>{
         event.preventDefault();
 console.log(loginData);
 
@@ -30,6 +37,31 @@ if(loginData.email.trim()==='' || loginData.password.trim()===''){
     return
 }
 //todo :validate rest email,password etc
+
+
+
+//login
+
+try {
+
+
+   const result =  await login(loginData)
+   console.log(result);
+   toast.success("Login successful")
+  
+
+//    redirect
+ context.setUser(result.user)
+router.push("/profile/user")
+    
+} catch (error) {
+    console.log(error);
+
+    toast.error(error.response.data.message,{
+        position:"top-center"
+    })
+    
+}
 
 
 

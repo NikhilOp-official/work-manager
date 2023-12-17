@@ -36,7 +36,7 @@ export async function POST(request){
     //fetch user detail from request
     const {name,email,password,about,profileURL} =await request.json()
 
-    //create user object wit useModel
+    //create user object with useModel
    const user = new User({
     name,
     email,

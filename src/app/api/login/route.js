@@ -15,13 +15,13 @@ export const  POST=async(request)=>{
         //1.get user
      const user= await User.findOne({email:email})
      if(user == null ){
-        return NextResponse.json({message:"user not found",success:true})
+        return getResponseMessage("user not found",500,false)
         
      }
         //2.password check
      const matched =bcrypt.compareSync(password,user.password)
      if(!matched){
-        return NextResponse.json({message:"password not matched",success:false})
+        return getResponseMessage("Passwod not matched",404,false)
      }
 
 
@@ -38,7 +38,8 @@ export const  POST=async(request)=>{
 
     const response = NextResponse.json({
                 message:"Login success!",
-                success:true        
+                success:true,
+                user:user,        
     })
 
     response.cookies.set("authToken",token,{expiresIn:"1d",httpOnly:true})
