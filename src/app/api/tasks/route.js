@@ -2,10 +2,11 @@ import { getResponseMessage } from "@/helper/responseMessage";
 import { Task } from "@/models/task";
 import { User } from "@/models/user";
 import { NextResponse } from "next/server";
+import jwt from "jsonwebtoken"
 
 const { default: connectDb } = require("@/helper/db");
 
-connectDb() 
+
 
 
 
@@ -14,6 +15,7 @@ connectDb()
 //get all the tasks 
 
   export async function GET(request){
+    await connectDb()
     try {
      const  tasks = await Task.find()
      return  NextResponse.json(tasks)
@@ -27,11 +29,21 @@ connectDb()
 }
 
 
-
+//getting all the data
 export async function POST(request){
+ 
 
     //fetch user detail from request
-    const {title,content,userId} =await request.json()
+    const {title,content,userId,status} =await request.json()
+
+
+
+//fetching logged in user id
+const authToken = request.cookies.get("authToken")?.value;
+// console.log(authToken);
+const data = jwt.verify(authToken, process.env.JWT_KEY)
+
+console.log(data._id);
 
    
     try {      
@@ -39,12 +51,13 @@ export async function POST(request){
             const task = new Task({
             title,
             content,
-            userId,
+            userId:data._id,
+            status,
 
             })
 
 
-
+            await connectDb()
     //save the object to database
      const createdTask = await task.save();
 

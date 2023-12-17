@@ -5,13 +5,13 @@ import bcrypt from "bcryptjs"
 
 const { default: connectDb } = require("@/helper/db");
 
-connectDb() 
+
 
 
 //get user function 
 
   export async function GET(request){
-
+    await connectDb()   
         let users = []
     try {
         users = await User.find().select("-password")
@@ -32,7 +32,7 @@ connectDb()
 
 
 export async function POST(request){
-
+    await connectDb()
     //fetch user detail from request
     const {name,email,password,about,profileURL} =await request.json()
 

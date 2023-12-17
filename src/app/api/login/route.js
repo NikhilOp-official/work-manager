@@ -6,9 +6,10 @@ import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 
 
-connectDb()
+
 
 export const  POST=async(request)=>{
+   await connectDb()
 
     const {email,password} =await  request.json();
     try {

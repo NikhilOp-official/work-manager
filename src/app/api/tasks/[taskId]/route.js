@@ -1,12 +1,15 @@
 
 // /api/tasks/{taskid}
 
+import connectDb from "@/helper/db";
 import { getResponseMessage } from "@/helper/responseMessage";
 import { Task } from "@/models/task";
 import { NextResponse } from "next/server";
 
+
 //get single task
 export const  GET=async (request,{params})=>{
+    await connectDb()
     const {taskId}= params
 
     try {

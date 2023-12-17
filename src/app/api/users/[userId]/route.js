@@ -1,9 +1,12 @@
 import { NextResponse } from "next/server";
 import { User } from "@/models/user";
+import connectDb from "@/helper/db";
+
 
 //get user
 export const GET = async (request, { params }) => {
   const { userId } = params;
+  await connectDb()
   try {
     const user = await User.findById(userId).select("-password");
     return NextResponse.json(user);
@@ -19,7 +22,7 @@ export const GET = async (request, { params }) => {
 //delete user
 export async function DELETE(request, { params }) {
   //   console.log(params);
-
+  await connectDb()
   const { userId } = params;
   try {
     await User.deleteOne({
@@ -46,7 +49,7 @@ export const PUT = async (request, { params }) => {
     const { userId } = params;
     const {name ,password,about,profileURL} =await request.json()
 
-
+    await connectDb()
     try {
       const user = await User.findById(userId);
 

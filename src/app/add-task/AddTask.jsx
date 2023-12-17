@@ -101,8 +101,8 @@ const AddTask = () => {
             value={task.status}
             >
               <option value="none" disabled>--Select Status--</option>
-              <option value="Pending">Pending</option>
-              <option value="Completed">Completed</option>
+              <option value="pending">Pending</option>
+              <option value="completed">Completed</option>
             </select>
           </div>
 {/* button actions */}

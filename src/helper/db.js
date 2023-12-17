@@ -2,7 +2,19 @@ import React from 'react'
 import mongoose from 'mongoose'
 import { User } from '@/models/user'
 
+
+
+const config ={
+  isConnected:0
+}
+
 const connectDb = async () => {
+
+  if(config.isConnected){
+    return
+  }
+
+
   try{
        const {connection} = await mongoose.connect(process.env.MONGO_DB_URL,{
 
@@ -10,6 +22,11 @@ const connectDb = async () => {
 
         })
   console.log("db connected")
+
+console.log(connection.readyState);
+
+config.isConnected = connection.readyState
+
         //testing and creating new user
 
       

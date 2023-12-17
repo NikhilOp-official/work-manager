@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server"
 
 export const POST = async()=>{
+
     const response =NextResponse.json({
         message:"Logged Out",
         success:true
